@@ -8,7 +8,7 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: psql-bkp
+  IMAGE_NAME: aws_cost_export
 
 jobs:
   push:
