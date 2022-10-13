@@ -27,8 +27,8 @@ func SendMail(region, from, recipient string) {
 	// create raw message
 	msg := gomail.NewMessage()
 
-	date := time.Now().Format("2006-1")
-	body := "Hi Everyone! <br />" + "This is the expense report for the month of " + date + "! <br />" + "Greetings! <br />"
+	date := time.Now().AddDate(0, -1, 0).Format("01/2006")
+	body := "Hi Everyone! <br />" + "This is the expense report for the month of " + date + " ! <br />" + "Greetings! <br />"
 
 	// Set to emails
 	msg.SetAddressHeader("From", from, "Cost Report")
