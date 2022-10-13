@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: aws_cost_export
+  name: aws-cost-export
 spec:
   schedule: "0 5 1 * *" # Change me to your schedule
   jobTemplate:
@@ -10,34 +10,34 @@ spec:
       template:
         spec:
           containers:
-            - name: aws_cost_export
+            - name: aws-cost-export
               image: ghcr.io/andresb39/aws_go_report/aws_cost_export:0.0.1
               imagePullPolicy: Always
               env:
                 - name: To
                   valueFrom:
                     secretKeyRef:
-                      name: secret
+                      name: cost-export
                       key: TO
                 - name: From
                   valueFrom:
                     secretKeyRef:
-                      name: secret
+                      name: cost-export
                       key: FROM
                 - name: AWS_ACCESS_KEY_ID
                   valueFrom:
                     secretKeyRef:
-                      name: secret
+                      name: cost-export
                       key: AWS_ACCESS_KEY_ID
                 - name: AWS_SECRET_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
-                      name: secret
+                      name: cost-export
                       key: AWS_SECRET_ACCESS_KEY
-                - name: Regions
+                - name: Region
                   valueFrom:
                     secretKeyRef:
-                      name: secret
+                      name: cost-export
                       key: AWS_DEFAULT_REGION
 
           restartPolicy: OnFailure
