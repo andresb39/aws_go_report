@@ -39,5 +39,4 @@ spec:
                     secretKeyRef:
                       name: cost-export
                       key: AWS_DEFAULT_REGION
-
           restartPolicy: OnFailure
