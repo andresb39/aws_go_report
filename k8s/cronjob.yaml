@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: aws-cost-export
 spec:
-  schedule: "0 5 1 * *" # Change me to your schedule
+  schedule: "0 10 1 * *" # Change me to your schedule
   jobTemplate:
     spec:
       template:
