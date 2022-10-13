@@ -6,12 +6,10 @@ LABEL Version="0.1" \
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
+COPY . ./
 
 RUN go mod download
 
-COPY *.go ./
 
 RUN go build -o /aws_cost_export
 

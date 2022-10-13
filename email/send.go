@@ -52,6 +52,5 @@ func SendMail(region, from, recipient string) {
 		log.Println("Error sending mail - ", err)
 		return
 	}
-	fmt.Println("Email sent successfully to: %s", recipient)
-
+	fmt.Println("Email sent successfully to: ", recipient)
 }
