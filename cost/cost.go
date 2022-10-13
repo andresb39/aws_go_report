@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/organizations"
 	"github.com/zhangtaomox/tablib"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -87,7 +88,9 @@ func GenerateCost(region string) {
 		paginationToken = *result.NextPageToken
 	}
 
-	dataset := tablib.NewDataSet().SetTitle("tablib").SetHeaders([]string{"Start", "End", "Acoount", "Name", "Service", "Unit", "cost"})
+	dataset := tablib.NewDataSet().SetTitle("tablib").SetHeaders([]string{
+		"Start", "End", "Account ID", "Account Name", "Service", "Unit", "cost",
+	})
 	for _, p := range results {
 		for _, g := range p.Groups {
 			acctID := *g.Keys[1]
@@ -96,8 +99,16 @@ func GenerateCost(region string) {
 			if fname == "" {
 				fname = acctID
 			}
-			_ = dataset.Append([]string{*p.TimePeriod.Start, *p.TimePeriod.End, acctID, fname, serviceName, *g.Metrics["UnblendedCost"].Unit, *g.Metrics["UnblendedCost"].Amount})
-			//fmt.Printf("%s | %s | %s | %s | %s | %s %s\n", *p.TimePeriod.Start, *p.TimePeriod.End, acctID, fname, serviceName, *g.Metrics["UnblendedCost"].Unit, *(g.Metrics["UnblendedCost"].Amount))
+			_ = dataset.Append([]string{
+				*p.TimePeriod.Start,
+				*p.TimePeriod.End,
+				acctID,
+				fname, serviceName,
+				*g.Metrics["BlendedCost"].Unit,
+				formatNumber(*g.Metrics["BlendedCost"].Amount),
+			})
+			//cost := formatNumber(*g.Metrics["BlendedCost"].Amount)
+			//fmt.Printf("%s | %s | %s | %s | %s | %s %s\n", *p.TimePeriod.Start, *p.TimePeriod.End, acctID, fname, serviceName, *g.Metrics["BlendedCost"].Unit, cost)
 		}
 	}
 
@@ -113,4 +124,9 @@ func GenerateCost(region string) {
 func exitErrorf(msg string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, msg+"\n", args...)
 	os.Exit(1)
+}
+
+func formatNumber(s string) string {
+	f, _ := strconv.ParseFloat(s, 64)
+	return fmt.Sprintf("%.2f", f)
 }
