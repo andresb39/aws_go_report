@@ -20,7 +20,7 @@ This generates a CSV file in the path **/tmp/report.csv** and then sends an emai
 
 ## kubernetes
 
-In [ks8](./ks8) we can find the maifest to deploy the CronJob, for the correct operation we must create a secret called **cost-export** with the following data:
+In [k8s](./k8s) we can find the maifest to deploy the CronJob, for the correct operation we must create a secret called **cost-export** with the following data:
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 - AWS_DEFAULT_REGION
